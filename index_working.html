@@ -5,6 +5,9 @@
 <link href="./DreamBooth_files/style.css" rel="stylesheet">
 <script type="text/javascript" src="./DreamBooth_files/jquery.mlens-1.0.min.js"></script> 
 <script type="text/javascript" src="./DreamBooth_files/jquery.js"></script>
+<!-- <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script> -->
+<script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script>
+
 <style>
   * {
     box-sizing: border-box;
@@ -28,13 +31,14 @@
    display: flex;
    flex-direction: row;
    padding: 5px;
+   align-content: center;
    /* flex-wrap: wrap; */
   }
   .grid > div {
    flex-grow: 1;
    flex-shrink: 1;
    padding: 5px;
-   justify-content: center;
+   
   }
   .center {
   display: block;
@@ -74,14 +78,7 @@
     attributes that are not seen in any of the input images of the
     subject.</p>
 </div>
--<div class="content">
-  <h2>Summary</h2>
-  <br>
-  <video style="width: 100%" controls>
-    <source src="./DreamBooth_files/internet_version.mp4" type="video/mp4">
-  </video>
-   <br>
-</div>
+
 <div class="content">
   <h2>Approach</h2>
   <p> Our method takes as input a few images (typically 3-5 images suffice, based on our experiments) of a subject (e.g., a specific dog) and the corresponding class name (e.g. "dog"), and returns a fine-tuned/"personalized'' text-to-image model that encodes a unique identifier that refers to the subject. Then, at inference, we can implant the unique identifier in different sentences to synthesize the subjects in difference contexts.</p>
@@ -101,28 +98,28 @@
   <div class="grid">
     <div>
       <img src="./DreamBooth_files/clusters/Img_Clusters_camdle.png" style="width:50%;" class="center"> 
-      <video style="width: 100%" autoplay muted>
+      <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/candle.mp4" type="video/mp4"> 
         </video>
         <p style="text-align:center;">A photo of a candle</p>
     </div>
     <div>
       <img src="./DreamBooth_files/clusters/Img_Clusters_owl.png" style="width:50%;" class="center"> 
-      <video style="width: 100%" autoplay muted>
+      <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/owl.mp4" type="video/mp4"> 
         </video>
         <p style="text-align:center;">Photo of a wooden owl</p>
     </div>
     <div>
       <img src="./DreamBooth_files/clusters/Img_Clusters_sloth.png" style="width:50%;" class="center"> 
-      <video style="width: 100%" autoplay muted>
+      <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/sloth.mp4" type="video/mp4"> 
         </video>
         <p style="text-align:center;">A photo of a sloth plushie</p>
     </div>
     <div>
       <img src="./DreamBooth_files/clusters/Img_Clusters_wolf.png" style="width:50%;" class="center"> 
-      <video style="width: 100%" autoplay muted>
+      <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/wolf.mp4" type="video/mp4"> 
         </video>
         <p style="text-align:center;">Photo of a wolf plushie</p>
@@ -223,6 +220,32 @@
     </div>
   </div>
 
+</div>
+<div class="content">
+  <h2>Mesh extraction</h2>
+  <p> Meshes can be extracted from the learnt volumetric representation. These meshes are 3D consistent enough that they can be 3D printed like a traditional asset.</p>
+  <div class="grid">
+    <div>
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="height:212px;"> 
+    </div>
+    <div>
+      <img src="./DreamBooth_files/gifs/005.gif" style="height:212px;"> 
+    </div>
+    <div>
+      <img src="./DreamBooth_files/clusters/Img_Clusters_print.png" style="height:212px;"> 
+    </div>
+  </div>
+  <br>
+</div>
+<model-viewer src="DreamBooth_files/dog_statue.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1">
+</model-viewer>
+<div class="content">
+  <h2>Summary</h2>
+  <br>
+  <video style="width: 100%" controls>
+    <source src="./DreamBooth_files/internet_version.mp4" type="video/mp4">
+  </video>
+   <br>
 </div>
 <div class="content">
   <h2>Societal Impact</h2>
