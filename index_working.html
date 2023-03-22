@@ -12,7 +12,7 @@
   
   .column {
     float: left;
-    width: 25%;
+    width: 20%;
     padding: 5px;
   }
   
@@ -34,17 +34,23 @@
    flex-grow: 1;
    flex-shrink: 1;
    padding: 5px;
+   justify-content: center;
   }
-  
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
   </style>
 </head>
 
 <body>
 <div class="content">
   <h1><strong>DreamBooth3D: Subject-Driven Text-to-3D Generation</strong></h1>
-  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://natanielruiz.github.io/">Amit Raj</a> <a href="http://people.csail.mit.edu/yzli/">Srinivas Kaza</a> <a href="https://varunjampani.github.io/">Ben Poole</a> <a href="https://research.google/people/106214/">Michael Niemeyer</a> <a href="http://people.csail.mit.edu/mrub/">Natanirl Ruiz</a> <a href="https://kfiraberman.github.io/">Ben Mildenhall</a>
-  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://natanielruiz.github.io/">Shiran Zada</a> <a href="http://people.csail.mit.edu/yzli/">Kfir Aberman</a> <a href="https://varunjampani.github.io/">Michael Rubinstein</a> <a href="https://research.google/people/106214/">Michael Neimeyer</a> <a href="http://people.csail.mit.edu/mrub/">Kfir Aberman</a> <a href="https://kfiraberman.github.io/">Jonathan Barron</a>
-  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://natanielruiz.github.io/">Yuanzhen Li</a> <a href="http://people.csail.mit.edu/yzli/">Varun Jampani</a> <br>
+  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://natanielruiz.github.io/">Amit Raj</a> <a href="http://people.csail.mit.edu/yzli/">Srinivas Kaza</a> <a href="https://varunjampani.github.io/">Ben Poole</a> <a href="https://research.google/people/106214/">Michael Niemeyer</a> <a href="http://people.csail.mit.edu/mrub/">Natanirl Ruiz</a> 
+  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://kfiraberman.github.io/">Ben Mildenhall</a><a href="https://natanielruiz.github.io/">Shiran Zada</a> <a href="http://people.csail.mit.edu/yzli/">Kfir Aberman</a> <a href="https://varunjampani.github.io/">Michael Rubinstein</a> 
+  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://kfiraberman.github.io/">Jonathan Barron</a><a href="https://natanielruiz.github.io/">Yuanzhen Li</a> <a href="http://people.csail.mit.edu/yzli/">Varun Jampani</a> <br>
   <br>
   <span style="font-size: 24px">Google Research
   </span></p>
@@ -54,7 +60,6 @@
     <font size="+2">
           <p style="text-align: center;">
             <a href="https://arxiv.org/abs/2208.12242" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
-	    (<font color="#C70039">new!</font>) <a href="https://github.com/google/dreambooth" target="_blank">[Dataset]</a> &nbsp;&nbsp;&nbsp;&nbsp;
             <a href="DreamBooth_files/bibtex.txt" target="_blank">[BibTeX]</a>
           </p>
     </font>
@@ -69,20 +74,20 @@
     attributes that are not seen in any of the input images of the
     subject.</p>
 </div>
-<!---<div class="content">
-  <h2>Background</h2>
-  <p> Given a particular subject such as clock (shown in the real images on the left), it is very challenging to generate it in different contexts with state-of-the-art text-to-image models, while maintaining high fidelity to its key visual features. Even with dozens of iterations over a text prompt that contains a detailed description of the appearance of the clock (<em>"retro style yellow alarm clock with a white clock face and a yellow number three on the right part of the clock face in the jungle"</em>), the Imagen model [Saharia et al., 2022] can't reconstruct its key visual features (third column). Furthermore, even models whose text embedding lies in a shared language-vision space and can create semantic variations of the image, such as DALL-E2 [Ramesh et al., 2022], can neither reconstruct the appearance of the given subject nor modify the context (second column). In contrast, our approach (right) can synthesize the clock with high fidelity and in new contexts (<em>"a [V] clock in the jungle"</em>).</p>
+-<div class="content">
+  <h2>Summary</h2>
   <br>
-  <img class="summary-img" src="./DreamBooth_files/background.png" style="width:100%;"> <br>
-</div>-->
+  <video style="width: 100%" controls>
+    <source src="./DreamBooth_files/internet_version.mp4" type="video/mp4">
+  </video>
+   <br>
+</div>
 <div class="content">
   <h2>Approach</h2>
   <p> Our method takes as input a few images (typically 3-5 images suffice, based on our experiments) of a subject (e.g., a specific dog) and the corresponding class name (e.g. "dog"), and returns a fine-tuned/"personalized'' text-to-image model that encodes a unique identifier that refers to the subject. Then, at inference, we can implant the unique identifier in different sentences to synthesize the subjects in difference contexts.</p>
   <br>
-  <img class="summary-img" src="./DreamBooth_files/high_level.png" style="width:100%;"> <br>
+  <img src="./DreamBooth_files/Approach.png" style="width: 100%"> <br>
   <p>Given ~3-5 images of a subject we fine tune a text-to-image diffusion in two steps: (a) fine tuning the low-resolution text-to-image model with the input images paired with a text prompt containing a unique identifier and the name of the class the subject belongs to (e.g., "A photo of a [T] dog”), in parallel, we apply a class-specific prior preservation loss, which leverages the semantic prior that the model has on the class and encourages it to generate diverse instances belong to the subject's class by injecting the class name in the text prompt (e.g., "A photo of a dog”). (b) fine-tuning the super resolution components with pairs of low-resolution and high-resolution images taken from our input images set, which enables us to maintain high-fidelity to small details of the subject.</p>
-  <br>
-  <img class="summary-img" src="./DreamBooth_files/system.png" style="width:100%;"> <br>
 </div>
 <div class="content">
   <h2>Results</h2>
@@ -91,27 +96,39 @@
 </div>
 <div class="content">
   <h2>Subject guidance</h2>
-  <p>DreamBooth3D can generate different 3D assets for the same text prompt depending on the guiding images. </p>
+  <p>DreamBooth3D can generate different 3D assets from a simple text prompt and a set of conditinoing images. </p>
   <br>
   <div class="grid">
     <div>
-      <img src="./DreamBooth_files/03.gif" style="width:100%;"> 
-    </div>
-    <div >
-      <img src="./DreamBooth_files/04.gif" style="width:100%;"> 
-    </div>
-    <div>
-      <img src="./DreamBooth_files/09.gif" style="width:100%;"> 
+      <img src="./DreamBooth_files/clusters/Img_Clusters_camdle.png" style="width:50%;" class="center"> 
+      <video style="width: 100%" autoplay muted>
+        <source src="./DreamBooth_files/vid_results/candle.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">A photo of a candle</p>
     </div>
     <div>
-      <img src="./DreamBooth_files/03.gif" style="width:100%;"> 
+      <img src="./DreamBooth_files/clusters/Img_Clusters_owl.png" style="width:50%;" class="center"> 
+      <video style="width: 100%" autoplay muted>
+        <source src="./DreamBooth_files/vid_results/owl.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">Photo of a wooden owl</p>
     </div>
     <div>
-      <img src="./DreamBooth_files/03.gif" style="width:100%;"> 
+      <img src="./DreamBooth_files/clusters/Img_Clusters_sloth.png" style="width:50%;" class="center"> 
+      <video style="width: 100%" autoplay muted>
+        <source src="./DreamBooth_files/vid_results/sloth.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">A photo of a sloth plushie</p>
+    </div>
+    <div>
+      <img src="./DreamBooth_files/clusters/Img_Clusters_wolf.png" style="width:50%;" class="center"> 
+      <video style="width: 100%" autoplay muted>
+        <source src="./DreamBooth_files/vid_results/wolf.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">Photo of a wolf plushie</p>
     </div>
   </div>
  <br>
-
 </div>
 <!--<div class="content">
   <h2>Text-Guided View Synthesis</h2>
@@ -131,18 +148,81 @@
   <br>
   <div class="row">
     <div class="column">
-      <img src="./DreamBooth_files/000.gif" style="width:100%;"> 
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="width:100%;"> 
     </div>
     <div class="column">
-      <img src="./DreamBooth_files/002.gif" style="width:100%;"> 
+      <img src="./DreamBooth_files/gifs/000.gif" style="width:100%;"> 
     </div>
     <div class="column">
-      <img src="./DreamBooth_files/003.gif" style="width:100%;"> 
+      <img src="./DreamBooth_files/gifs/002.gif" style="width:100%;"> 
     </div>
     <div class="column">
-      <img src="./DreamBooth_files/004.gif" style="width:100%;"> 
+      <img src="./DreamBooth_files/gifs/003.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/004.gif" style="width:100%;"> 
     </div>
   </div>
+
+  <div class="row">
+    <div class="column">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_1.png" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/006.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/008.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/009.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/010.gif" style="width:100%;"> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_2.png" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/012.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/014.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/015.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/016.gif" style="width:100%;"> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_3.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/024.gif" style="width:100%;"> 
+      <p style="text-align: center;">Photo of a dog</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/026.gif" style="width:100%;"> 
+      <p style="text-align: center;">..sitting on a rainbow carpet</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/027.gif" style="width:100%;"> 
+      <p style="text-align: center;">..sitting on a purple carpet</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/028.gif" style="width:100%;"> 
+      <p style="text-align: center;">..wearing a green umbrella</p>
+    </div>
+  </div>
+
 </div>
 <div class="content">
   <h2>Societal Impact</h2>
