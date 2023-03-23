@@ -5,6 +5,7 @@
 <link href="./DreamBooth_files/style.css" rel="stylesheet">
 <script type="text/javascript" src="./DreamBooth_files/jquery.mlens-1.0.min.js"></script> 
 <script type="text/javascript" src="./DreamBooth_files/jquery.js"></script>
+<script type="text/javascript" src="./DreamBooth_files/video-comparison.js"></script>
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
 <!-- <script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script> -->
 
@@ -50,6 +51,31 @@ gtag('config', 'G-XB3PR2Y1TQ');
     box-sizing: border-box;
   }
   
+  #video-compare-container {
+	display: inline-block;
+	line-height: 0;
+	position: relative;
+	width: 100%;
+	padding-top: 42.3%;
+}
+#video-compare-container > video {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	height: 100%;
+}
+#video-clipper {
+	width: 50%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+#video-clipper video {
+	width: 200%;
+	position: absolute;
+	height: 100%;
+}
   .column {
     float: left;
     width: 20%;
@@ -95,15 +121,15 @@ gtag('config', 'G-XB3PR2Y1TQ');
 <body>
 <div class="content">
   <h1><strong>DreamBooth3D: Subject-Driven Text-to-3D Generation</strong></h1>
-  <p id="authors"><a href="https://amitraj93.github.io/">Amit Raj</a> <a href="https://www.linkedin.com/in/srinivas-kaza-64223b74">Srinivas Kaza</a> <a href="https://cs.stanford.edu/~poole/">Ben Poole</a> <a href="https://m-niemeyer.github.io/">Michael Niemeyer</a> <a href="https://natanielruiz.github.io/">Natanirl Ruiz</a> 
+  <p id="authors"><a href="https://amitraj93.github.io/">Amit Raj</a> <a href="https://www.linkedin.com/in/srinivas-kaza-64223b74">Srinivas Kaza</a> <a href="https://cs.stanford.edu/~poole/">Ben Poole</a> <a href="https://m-niemeyer.github.io/">Michael Niemeyer</a> <a href="https://natanielruiz.github.io/">Nataniel Ruiz</a> 
   <p id="authors"><a href="https://bmild.github.io/">Ben Mildenhall</a><a href="https://scholar.google.com/citations?user=I2qheksAAAAJ">Shiran Zada</a> <a href="https://kfiraberman.github.io/">Kfir Aberman</a> <a href="http://people.csail.mit.edu/mrub/">Michael Rubinstein</a> 
   <p id="authors"><a href="https://jonbarron.info/">Jonathan Barron</a><a href="http://people.csail.mit.edu/yzli/">Yuanzhen Li</a> <a href="https://varunjampani.github.io/">Varun Jampani</a> <br>
   <br>
-  <span style="font-size: 24px">Google Research
+  <span style="font-size: 24px">Google 
   </span></p>
   <br>
   <img src="./DreamBooth_files/Teaser.png" class="teaser-gif" style="width:100%;"><br>
-  <h3 style="text-align:center"><em>Revolutionize 3D Asset Personalization with DreamBooth3D: Create Subject-Specific 3D Models from Just a Few Casual Photos!!</em></h3>
+  <h3 style="text-align:center"><em>Personalized 3D models from just a few casual photos, with text-driven modifications.</em></h3>
     <font size="+2">
           <p style="text-align: center;">
             <a href="./DreamBooth_files/final_paper.pdf" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -124,7 +150,7 @@ gtag('config', 'G-XB3PR2Y1TQ');
 
 <div class="content">
   <h2>Approach</h2>
-  <p> Our method takes as input 3-5 casual captures of a subject (e.g., a specific dog) and a text prompt, 
+  <p> Our method takes as input 3-6 casual captures of a subject (e.g., a specific dog) and a text prompt, 
     and returns a volumetric model (NeRF) respecting both the prompt and the subject. 
     We can use text prompts to synthesize the subjects under difference contexts.</p>
   <br>
@@ -135,22 +161,16 @@ gtag('config', 'G-XB3PR2Y1TQ');
     stage-3 (right), we further fine-tune the partial DreamBooth using multi-view images and then use the resulting multi-view
     DreamBooth to optimize the final NeRF 3D asset using the SDS loss along with the multi-view reconstruction loss.</p>
 </div>
+
 <div class="content">
-  <h2>Results</h2>
-  <p>Results for text based 3D asset generation conditioned on casual captures. The assets below are generated using the text prompt "A photograh of < object >". 
-    Where < object > is the subject repesented in the exemplar images. The first column presents the exemplar images used to update our T2I model. 
-    The second and third column shows two rendered views from the learnt volume. The last three columns shows the depth, normals and alpha maps for the second rendered view. </p>
-<img class="summary-img" src="./DreamBooth_files/Dreambooth_geom.png" style="width:100%;">
-</div>
-<div class="content">
-  <h2>Subject guidance</h2>
-  <p>DreamBooth3D can generate different 3D assets from a simple text prompt and a set of conditinoing images. </p>
+  <h2>Subject Guidance</h2>
+  <p>DreamBooth3D can work on diverse subject types as illustrated by rare objects such as wodden owl here.</p>
   <br>
   <div class="grid">
     <div>
       <img src="./DreamBooth_files/clusters/Img_Clusters_camdle.png" style="width:50%;" class="center"> 
-      <video style="width: 100%" autoplay muted loop>
-        <source src="./DreamBooth_files/vid_results/candle.mp4" type="video/mp4"> 
+        <video style="width: 100%" autoplay muted loop>
+          <source src="./DreamBooth_files/vid_results/candle.mp4" type="video/mp4"> 
         </video>
         <p style="text-align:center;">A photo of a candle</p>
     </div>
@@ -480,6 +500,14 @@ gtag('config', 'G-XB3PR2Y1TQ');
   <iframe width="890" height="450" src="https://www.youtube.com/embed/KWGsjkew1Vc">
   </iframe>
    <br>
+</div>
+
+<div class="content">
+  <h2>Results</h2>
+  <p>Results for text based 3D asset generation conditioned on casual captures. The assets below are generated using the text prompt "A photograh of < object >". 
+    Where < object > is the subject repesented in the exemplar images. The first column presents the exemplar images used to update our T2I model. 
+    The second and third column shows two rendered views from the learnt volume. The last three columns shows the depth, normals and alpha maps for the second rendered view. </p>
+<img class="summary-img" src="./DreamBooth_files/Dreambooth_geom.png" style="width:100%;">
 </div>
 <!-- <div class="content">
   <h2>Societal Impact</h2>
