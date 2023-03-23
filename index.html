@@ -1,1 +1,535 @@
-Hello world
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>DreamBooth3D</title>
+<link href="./DreamBooth_files/style.css" rel="stylesheet">
+<script type="text/javascript" src="./DreamBooth_files/jquery.mlens-1.0.min.js"></script> 
+<script type="text/javascript" src="./DreamBooth_files/jquery.js"></script>
+<script type="text/javascript" src="./DreamBooth_files/video-comparison.js"></script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+<!-- <script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script> -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XB3PR2Y1TQ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-XB3PR2Y1TQ');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:site_name" content="DreamBooth3D: Subject driven Text-to-3D generation"/>
+<meta property="og:type" content="video.other" />
+<meta property="og:title" content="DreamBooth3D: Subject driven Text-to-3D generation" />
+<meta property="og:description" content="DreamBooth3D: Subject driven text-to-3D generation" />
+<meta property="og:url" content="https://dreambooth3d.github.io/" />
+
+<meta property="article:publisher" content="https://dreambooth3d.github.io/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="DreamFusion: Text-to-3D using 2D Diffusion" />
+<meta name="twitter:description" content="We combine DreamBooth and DreamFusion for subject driven text to 3D generation" />
+<meta name="twitter:url" content="https://dreambooth3d.github.io/" />
+    <!-- <meta name="twitter:site" content="" /> -->
+
+
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  #video-compare-container {
+	display: inline-block;
+	line-height: 0;
+	position: relative;
+	width: 100%;
+	padding-top: 42.3%;
+}
+#video-compare-container > video {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	height: 100%;
+}
+#video-clipper {
+	width: 50%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+#video-clipper video {
+	width: 200%;
+	position: absolute;
+	height: 100%;
+}
+  .column {
+    float: left;
+    width: 20%;
+    padding: 5px;
+  }
+
+  .colum4 {
+    float: left;
+    width: 25%;
+    padding: 5px;
+  }
+  
+  /* Clearfix (clear floats) */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  </style>
+ <style>
+  .grid {
+   display: flex;
+   flex-direction: row;
+   padding: 5px;
+   align-content: center;
+   /* flex-wrap: wrap; */
+  }
+  .grid > div {
+   flex-grow: 1;
+   flex-shrink: 1;
+   padding: 5px;
+   
+  }
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+html {
+  scroll-behavior: smooth;
+}
+  </style>
+</head>
+
+<body>
+<div class="content">
+  <h1><strong>DreamBooth3D: Subject-Driven Text-to-3D Generation</strong></h1>
+  <p id="authors"><a href="https://amitraj93.github.io/">Amit Raj</a> <a href="https://www.linkedin.com/in/srinivas-kaza-64223b74">Srinivas Kaza</a> <a href="https://cs.stanford.edu/~poole/">Ben Poole</a> <a href="https://m-niemeyer.github.io/">Michael Niemeyer</a> <a href="https://natanielruiz.github.io/">Nataniel Ruiz</a> 
+  <p id="authors"><a href="https://bmild.github.io/">Ben Mildenhall</a><a href="https://scholar.google.com/citations?user=I2qheksAAAAJ">Shiran Zada</a> <a href="https://kfiraberman.github.io/">Kfir Aberman</a> <a href="http://people.csail.mit.edu/mrub/">Michael Rubinstein</a> 
+  <p id="authors"><a href="https://jonbarron.info/">Jonathan Barron</a><a href="http://people.csail.mit.edu/yzli/">Yuanzhen Li</a> <a href="https://varunjampani.github.io/">Varun Jampani</a> <br>
+  <br>
+  <span style="font-size: 24px">Google 
+  </span></p>
+  <br>
+  <img src="./DreamBooth_files/Teaser.png" class="teaser-gif" style="width:100%;"><br>
+  <h3 style="text-align:center"><em>Personalized 3D models from just a few casual photos, with text-driven modifications.</em></h3>
+    <font size="+2">
+          <p style="text-align: center;">
+            <a href="./DreamBooth_files/final_paper.pdf" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#sum-video">[Summary Video]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="./DreamBooth_files/bibtex.txt" target="_blank">[BibTeX]</a>
+          </p>
+    </font>
+</div>
+<div class="content">
+  <h2 style="text-align:center;">Abstract</h2>
+  <p>We present DreamBooth3D, an approach to personalize text-to-3D generative models from as few as 3-6 casually captured images of a subject. Our approach combines recent advances in personalizing text-to-image models (DreamBooth) with text-to-3D generation (DreamFusion). We find that naively combining these methods fails
+    to yield satisfactory subject-specific 3D assets due to personalized text-to-image models overfitting to the input viewpoints of the subject. We overcome this through a 3-stage
+    optimization strategy where we jointly leverage the 3D consistency of neural radiance fields together with the personalization capability of text-to-image models. Our method
+    can produce high-quality, subject-specific 3D assets with
+    text-driven modifications such as novel poses, colors and
+    attributes that are not seen in any of the input images of the
+    subject.</p>
+</div>
+
+<div class="content">
+  <h2>Approach</h2>
+  <p> Our method takes as input 3-6 casual captures of a subject (e.g., a specific dog) and a text prompt, 
+    and returns a volumetric model (NeRF) respecting both the prompt and the subject. 
+    We can use text prompts to synthesize the subjects under difference contexts.</p>
+  <br>
+  <img src="./DreamBooth_files/Approach.png" style="width: 100%"> <br>
+  <p> In the stage-1 (left), we first partially train a DreamBooth and use the resulting model
+    to optimize the initial NeRF. In stage-2 (middle), we render multi-view images along random viewpoints from the initial
+    NeRF and then translate them into pseudo multi-view subject images using a fully-trained DreamBooth model. In the final
+    stage-3 (right), we further fine-tune the partial DreamBooth using multi-view images and then use the resulting multi-view
+    DreamBooth to optimize the final NeRF 3D asset using the SDS loss along with the multi-view reconstruction loss.</p>
+</div>
+
+<div class="content">
+  <h2>Subject Guidance</h2>
+  <p>DreamBooth3D can work on diverse subject types as illustrated by rare objects such as wodden owl here.</p>
+  <br>
+  <div class="grid">
+    <div>
+      <img src="./DreamBooth_files/clusters/Img_Clusters_camdle.png" style="width:50%;" class="center"> 
+        <video style="width: 100%" autoplay muted loop>
+          <source src="./DreamBooth_files/vid_results/candle.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">A photo of a candle</p>
+    </div>
+    <div>
+      <img src="./DreamBooth_files/clusters/Img_Clusters_owl.png" style="width:50%;" class="center"> 
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/owl.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">Photo of a wooden owl</p>
+    </div>
+    <div>
+      <img src="./DreamBooth_files/clusters/Img_Clusters_sloth.png" style="width:50%;" class="center"> 
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/sloth.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">A photo of a sloth plushie</p>
+    </div>
+    <div>
+      <img src="./DreamBooth_files/clusters/Img_Clusters_wolf.png" style="width:50%;" class="center"> 
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/wolf.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align:center;">Photo of a wolf plushie</p>
+    </div>
+  </div>
+ <br>
+</div>
+
+<div class="content">
+  <h2>Material Change</h2>
+  <p>Our framework allows versatile 3D generation with simple modifications in the text prompts. 
+    Here, we show some Material editing results. Notice that the glass sculpture and the statue of the dog correspond to the given subject.
+  </p>
+  <br>
+  <div class="row">
+    <div class="colum4">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="width:100%;"> 
+    </div>
+    <div class="colum4">
+      <img src="./DreamBooth_files/vid_results/dog.gif" style="width:100%;"> 
+    </div>
+    <div class="colum4">
+      <img src="./DreamBooth_files/vid_results/dog_glass.gif" style="width:100%;"> 
+    </div>
+    <div class="colum4">
+      <img src="./DreamBooth_files/vid_results/dog_stone.gif" style="width:100%;"> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="colum4">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_2.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
+    </div>
+    <div class="colum4">
+      <img src="./DreamBooth_files/vid_results/dog2.gif" style="width:100%;"> 
+      <p style="text-align: center;">A photo of a dog</p>
+    </div>
+    <div class="colum4">
+      <img src="./DreamBooth_files/vid_results/dog2_glass.gif" style="width:100%;"> 
+      <p style="text-align: center;">A dog made of glass</p>
+
+    </div>
+    <div class="colum4">
+      <img src="./DreamBooth_files/vid_results/dog2_stone.gif" style="width:100%;"> 
+      <p style="text-align: center;">A stone statue of a dog</p>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="content">
+  <h2>Color Change</h2>
+  <p>Dreambooth 3D can introduce color changes in a consistent manner. We use a prompt of the following format : "A < color > backpack" for these results, 
+    where the caption of each image represents the < color > .
+  </p>
+  <br>
+  <div class="row">
+    <div class="colum4">
+      <img src="./DreamBooth_files/clusters/Img_clusters_bag.png" style="width:100%;"> 
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/bag_pink.mp4" type="video/mp4"> 
+        </video>
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/bag_green.mp4" type="video/mp4"> 
+        </video>
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/bag_grey.mp4" type="video/mp4"> 
+        </video>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="colum4">
+      <img src="./DreamBooth_files/clusters/Img_Clusters_bagd.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/bagd_pink.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align: center;">"Pink"</p>
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/bagd_green.mp4" type="video/mp4"> 
+        </video> 
+        <p style="text-align: center;">"Green"</p>
+
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/bagd_grey.mp4" type="video/mp4"> 
+        </video> 
+        <p style="text-align: center;">"Grey"</p>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="content">
+  <h2>Pose Variations</h2>
+  <p>We can even perform non-rigid deformations such as pose changes relatively easily with simple modifications of text prompts.
+     Here we show different dog subject results in various poses. Note that none of the exemplar images contain an image of a jumping or sleeping dog.</p>
+  <br>
+  <div class="row">
+    <div class="colum4">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_6.png" style="width:100%;"> 
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/dog6.mp4" type="video/mp4"> 
+        </video>
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/dog6_sleep.mp4" type="video/mp4"> 
+        </video>
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/dog6_jump.mp4" type="video/mp4"> 
+        </video>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="colum4">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_3.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/dog7.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align: center;">Photo of a dog sitting</p>
+
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/dog7_sleep.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align: center;">Photo of a dog sleeping</p>
+
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/dog7_jump.mp4" type="video/mp4"> 
+        </video>
+        <p style="text-align: center;">Photo of a dog jumping</p>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="content">
+  <h2>Cartoon to 3D</h2>
+  <p> DreamBooth3D can even produce plausible 3D models from unrealistic cartoon images.</p>
+  <br>
+  <div class="row">
+    <div class="colum4">
+      <!-- <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="width:100%;">  -->
+    </div>
+    <div class="colum4">
+      <img src="./DreamBooth_files/clusters/cartoon.png" style="width:100%;"> 
+    </div>
+    <div class="colum4">
+      <video style="width: 100%" autoplay muted loop>
+        <source src="./DreamBooth_files/vid_results/cartoon_round.mp4" type="video/mp4"> 
+        </video>
+    </div>
+  </div>
+
+</div>
+<!--<div class="content">
+  <h2>Text-Guided View Synthesis</h2>
+  <p>Our technique can synthesized images with specified viewpoints for a subject cat (left to right: top, bottom, side and back views). Note that the generated poses are  different from the input poses, and the background changes in a realistic manner given a pose change. We also highlight the preservation of complex fur patterns on the subject cat's forehead.</p>
+  <br>
+  <img class="summary-img" src="./DreamBooth_files/novel_views.png" style="width:100%;"> <br>
+</div>
+<div class="content">
+  <h2>Property Modification</h2>
+  <p>We show color modifications in the first row (using prompts ``a [color] [V] car''), and crosses between a specific dog and different animals in the second row (using prompts ``a cross of a [V] dog and a [target species]''). We highlight the fact that our method preserves unique visual features that give the subject its identity or essence, while performing the required property modification.</p>
+  <br>
+  <img class="summary-img" src="./DreamBooth_files/property_modification.png" style="width:100%;"> <br>
+</div>-->
+<div class="content">
+  <h2>Accessorization</h2>
+  <p>Our model can add accessories directly onto the 3D subject or into the scene, as in the rainbow carpet and green umbrella.
+  </p>
+  <br>
+  <div class="row">
+    <div class="column">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/000.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/002.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/003.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/004.gif" style="width:100%;"> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_1.png" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/006.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/008.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/009.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/010.gif" style="width:100%;"> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_2.png" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/012.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/014.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/015.gif" style="width:100%;"> 
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/016.gif" style="width:100%;"> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_3.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/024.gif" style="width:100%;"> 
+      <p style="text-align: center;">Photo of a dog</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/026.gif" style="width:100%;"> 
+      <p style="text-align: center;">..sitting on a rainbow carpet</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/027.gif" style="width:100%;"> 
+      <p style="text-align: center;">..sitting on a purple carpet</p>
+    </div>
+    <div class="column">
+      <img src="./DreamBooth_files/gifs/028.gif" style="width:100%;"> 
+      <p style="text-align: center;">..wearing a green umbrella</p>
+    </div>
+  </div>
+
+</div>
+<div class="content">
+  <h2>Mesh extraction</h2>
+  <p> Meshes can be extracted from the learnt volumetric representation using marching cube, which can then be used as a traditional mesh asset in different applications and for 3D printing.</p>
+  <div class="grid">
+    <div>
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="height:150px;"> 
+      <p style="text-align: center;">Conditioning Images</p>
+    </div>
+    <div>
+      <img src="./DreamBooth_files/gifs/005.gif" style="height:150px;">
+      <p style="text-align: center;">Rendered NeRF</p>
+    </div>
+    <div>
+      <img src="./DreamBooth_files/clusters/Img_Clusters_print.png" style="height:150px;"> 
+      <p style="text-align: center;">3D printed asset</p>
+    </div>
+    <div>
+      <model-viewer src="DreamBooth_files/dog_statue.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1">
+      </model-viewer>
+      <p style="text-align: center;">Mesh</p>
+    </div>
+  </div>
+  <br>
+  
+</div>
+<div class="content">
+  <a id="sum-video"><h2>Summary</h2></a>
+  <br>
+  <iframe width="890" height="450" src="https://www.youtube.com/embed/TFtaoAqSkEA">
+  </iframe>
+   <br>
+</div>
+
+<div class="content">
+  <h2>Results with geometry</h2>
+  <p>Results for text based 3D asset generation conditioned on casual captures. The assets below are generated using the text prompt "A photograh of < object >". 
+    Where < object > is the subject repesented in the exemplar images. The first column presents the exemplar images used to update our T2I model. 
+    The second and third column shows two rendered views from the learnt volume. The last three columns shows the depth, normals and alpha maps for the second rendered view. </p>
+<img class="summary-img" src="./DreamBooth_files/Dreambooth_geom.png" style="width:100%;">
+</div>
+<!-- <div class="content">
+  <h2>Societal Impact</h2>
+  <p>This project aims to provide users with an effective tool for synthesizing personal subjects (animals, objects) in different contexts. While general text-to-image models might be biased towards specific attributes when synthesizing images from text, our approach enables the user to get a better reconstruction of their desirable subjects. On contrary, malicious parties might try to use such images to mislead viewers. This is a common issue, existing in other generative models approaches or content manipulation techniques. Future research in generative modeling, and specifically of personalized generative priors, must continue investigating and revalidating these concerns.</p>
+  <br>
+</div> -->
+<div class="content">
+  <h2>BibTex</h2>
+  <code> @article{raj2023dreambooth3d,<br>
+  &nbsp;&nbsp;title={DreamBooth3D: Subject-Driven Text-to-3D Generation},<br>
+  &nbsp;&nbsp;author={Raj, Amit and Kaza, Srinivas and Poole, Ben and Niemeyer, Michael and Mildenhall,Ben and Ruiz, Nataniel and Zada, Shiran and Aberman, Kfir and Rubenstein, Michael and Barron, Jonathan and Li, Yuanzhen and Jampani, Varun},<br>
+  &nbsp;&nbsp;booktitle={arXiv preprint },<br>
+  &nbsp;&nbsp;year={2023}<br>
+  } </code> 
+</div>
+<!-- <div class="content" id="acknowledgements">
+  <p><strong>Acknowledgements</strong>:
+  </p>
+</div> -->
+</body>
+</html>
