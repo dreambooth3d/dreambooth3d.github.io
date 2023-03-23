@@ -5,8 +5,8 @@
 <link href="./DreamBooth_files/style.css" rel="stylesheet">
 <script type="text/javascript" src="./DreamBooth_files/jquery.mlens-1.0.min.js"></script> 
 <script type="text/javascript" src="./DreamBooth_files/jquery.js"></script>
-<!-- <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script> -->
-<script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+<!-- <script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script> -->
 
 <style>
   * {
@@ -52,9 +52,9 @@
 <body>
 <div class="content">
   <h1><strong>DreamBooth3D: Subject-Driven Text-to-3D Generation</strong></h1>
-  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://natanielruiz.github.io/">Amit Raj</a> <a href="http://people.csail.mit.edu/yzli/">Srinivas Kaza</a> <a href="https://varunjampani.github.io/">Ben Poole</a> <a href="https://research.google/people/106214/">Michael Niemeyer</a> <a href="http://people.csail.mit.edu/mrub/">Natanirl Ruiz</a> 
-  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://kfiraberman.github.io/">Ben Mildenhall</a><a href="https://natanielruiz.github.io/">Shiran Zada</a> <a href="http://people.csail.mit.edu/yzli/">Kfir Aberman</a> <a href="https://varunjampani.github.io/">Michael Rubinstein</a> 
-  <p id="authors"><span><a href="https://natanielruiz.github.io/"></a></span><a href="https://kfiraberman.github.io/">Jonathan Barron</a><a href="https://natanielruiz.github.io/">Yuanzhen Li</a> <a href="http://people.csail.mit.edu/yzli/">Varun Jampani</a> <br>
+  <p id="authors"><a href="https://amitraj93.github.io/">Amit Raj</a> <a href="https://www.linkedin.com/in/srinivas-kaza-64223b74">Srinivas Kaza</a> <a href="https://cs.stanford.edu/~poole/">Ben Poole</a> <a href="https://m-niemeyer.github.io/">Michael Niemeyer</a> <a href="https://natanielruiz.github.io/">Natanirl Ruiz</a> 
+  <p id="authors"><a href="https://bmild.github.io/">Ben Mildenhall</a><a href="https://scholar.google.com/citations?user=I2qheksAAAAJ">Shiran Zada</a> <a href="https://kfiraberman.github.io/">Kfir Aberman</a> <a href="http://people.csail.mit.edu/mrub/">Michael Rubinstein</a> 
+  <p id="authors"><a href="https://jonbarron.info/">Jonathan Barron</a><a href="http://people.csail.mit.edu/yzli/">Yuanzhen Li</a> <a href="https://varunjampani.github.io/">Varun Jampani</a> <br>
   <br>
   <span style="font-size: 24px">Google Research
   </span></p>
@@ -226,19 +226,22 @@
   <p> Meshes can be extracted from the learnt volumetric representation. These meshes are 3D consistent enough that they can be 3D printed like a traditional asset.</p>
   <div class="grid">
     <div>
-      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="height:212px;"> 
+      <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="height:150px;"> 
     </div>
     <div>
-      <img src="./DreamBooth_files/gifs/005.gif" style="height:212px;"> 
+      <img src="./DreamBooth_files/gifs/005.gif" style="height:150px;"> 
     </div>
     <div>
-      <img src="./DreamBooth_files/clusters/Img_Clusters_print.png" style="height:212px;"> 
+      <img src="./DreamBooth_files/clusters/Img_Clusters_print.png" style="height:150px;"> 
+    </div>
+    <div>
+      <model-viewer src="DreamBooth_files/dog_statue.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1">
+      </model-viewer>
     </div>
   </div>
   <br>
+  
 </div>
-<model-viewer src="DreamBooth_files/dog_statue.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1">
-</model-viewer>
 <div class="content">
   <h2>Summary</h2>
   <br>
