@@ -87,14 +87,22 @@
 
 <div class="content">
   <h2>Approach</h2>
-  <p> Our method takes as input a few images (typically 3-5 images suffice, based on our experiments) of a subject (e.g., a specific dog) and the corresponding class name (e.g. "dog"), and returns a fine-tuned/"personalized'' text-to-image model that encodes a unique identifier that refers to the subject. Then, at inference, we can implant the unique identifier in different sentences to synthesize the subjects in difference contexts.</p>
+  <p> Our method takes as input 3-5 casual captures of a subject (e.g., a specific dog) and a text prompt, 
+    and returns a volumetric model (NeRF) respecting both the prompt and the subject. 
+    We can use text prompts to synthesize the subjects under difference contexts.</p>
   <br>
   <img src="./DreamBooth_files/Approach.png" style="width: 100%"> <br>
-  <p>Given ~3-5 images of a subject we fine tune a text-to-image diffusion in two steps: (a) fine tuning the low-resolution text-to-image model with the input images paired with a text prompt containing a unique identifier and the name of the class the subject belongs to (e.g., "A photo of a [T] dog”), in parallel, we apply a class-specific prior preservation loss, which leverages the semantic prior that the model has on the class and encourages it to generate diverse instances belong to the subject's class by injecting the class name in the text prompt (e.g., "A photo of a dog”). (b) fine-tuning the super resolution components with pairs of low-resolution and high-resolution images taken from our input images set, which enables us to maintain high-fidelity to small details of the subject.</p>
+  <p> In the stage-1 (left), we first partially train a DreamBooth and use the resulting model
+    to optimize the initial NeRF. In stage-2 (middle), we render multi-view images along random viewpoints from the initial
+    NeRF and then translate them into pseudo multi-view subject images using a fully-trained DreamBooth model. In the final
+    stage-3 (right), we further fine-tune the partial DreamBooth using multi-view images and then use the resulting multi-view
+    DreamBooth to optimize the final NeRF 3D asset using the SDS loss along with the multi-view reconstruction loss.</p>
 </div>
 <div class="content">
   <h2>Results</h2>
-  <p>Results for re-contextualization of a bag and vase subject instances. By finetuning a model using our method we are able to generate different images of the a subject instance in different environments, with high preservation of subject details and realistic interaction between the scene and the subject. We display the conditioning prompts below each image. </p>
+  <p>Results for text based 3D asset generation conditioned on casual captures. The assets below are generated using the text prompt "A photograh of < object >". 
+    Where < object > is the subject repesented in the exemplar images. The first column presents the exemplar images used to update our T2I model. 
+    The second and third column shows two rendered views from the learnt volume. The last three columns shows the depth, normals and alpha maps for the second rendered view. </p>
 <img class="summary-img" src="./DreamBooth_files/Dreambooth_geom.png" style="width:100%;">
 </div>
 <div class="content">
@@ -136,7 +144,9 @@
 
 <div class="content">
   <h2>Material Change</h2>
-  <p>Outfitting a dog with accessories. The identity of the subject is preserved and many different outfits or accessories can be applied to the dog given a prompt of type <em>"a [V] dog wearing a police/chef/witch outfit''</em>. We observe a realistic interaction between the subject dog and the outfits or accessories, as well as a large variety of possible options.</p>
+  <p>Our framework allows versatile 3D generation with simple modifications in the text prompts. 
+    Here, we show some Material editing results. Notice that the glass sculpture and the statue of the dog correspond to the given subject.
+  </p>
   <br>
   <div class="row">
     <div class="colum4">
@@ -172,7 +182,8 @@
 
 <div class="content">
   <h2>Color Change</h2>
-  <p>Outfitting a dog with accessories. The identity of the subject is preserved and many different outfits or accessories can be applied to the dog given a prompt of type <em>"a [V] dog wearing a police/chef/witch outfit''</em>. We observe a realistic interaction between the subject dog and the outfits or accessories, as well as a large variety of possible options.</p>
+  <p>Dreambooth 3D can introduce color changes in a consistent manner.
+  </p>
   <br>
   <div class="row">
     <div class="colum4">
@@ -220,7 +231,8 @@
 
 <div class="content">
   <h2>Pose Variations</h2>
-  <p>Outfitting a dog with accessories. The identity of the subject is preserved and many different outfits or accessories can be applied to the dog given a prompt of type <em>"a [V] dog wearing a police/chef/witch outfit''</em>. We observe a realistic interaction between the subject dog and the outfits or accessories, as well as a large variety of possible options.</p>
+  <p>We can even perform non-rigid deformations such as pose changes relatively easily with simple modifications of text prompts.
+     Here we show different dog subject results in various poses. Note that none of the exemplar images contain an image of a jumping or sleeping dog.</p>
   <br>
   <div class="row">
     <div class="colum4">
@@ -268,7 +280,7 @@
 
 <div class="content">
   <h2>Cartoon to 3D</h2>
-  <p>Outfitting a dog with accessories. The identity of the subject is preserved and many different outfits or accessories can be applied to the dog given a prompt of type <em>"a [V] dog wearing a police/chef/witch outfit''</em>. We observe a realistic interaction between the subject dog and the outfits or accessories, as well as a large variety of possible options.</p>
+  <p> DreamBooth3D can even produce plausible 3D models from unrealistic cartoon images.</p>
   <br>
   <div class="row">
     <div class="colum4">
@@ -299,7 +311,8 @@
 </div>-->
 <div class="content">
   <h2>Accessorization</h2>
-  <p>Outfitting a dog with accessories. The identity of the subject is preserved and many different outfits or accessories can be applied to the dog given a prompt of type <em>"a [V] dog wearing a police/chef/witch outfit''</em>. We observe a realistic interaction between the subject dog and the outfits or accessories, as well as a large variety of possible options.</p>
+  <p>Our model can add accessories directly onto the 3D subject or into the scene, as in the rainbow carpet and green umbrella.
+  </p>
   <br>
   <div class="row">
     <div class="column">
@@ -381,7 +394,7 @@
 </div>
 <div class="content">
   <h2>Mesh extraction</h2>
-  <p> Meshes can be extracted from the learnt volumetric representation. These meshes are 3D consistent enough that they can be 3D printed like a traditional asset.</p>
+  <p> Meshes can be extracted from the learnt volumetric representation using marching cube, which can then be used as a traditional mesh asset in different applications and for 3D printing.</p>
   <div class="grid">
     <div>
       <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="height:150px;"> 
