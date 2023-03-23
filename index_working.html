@@ -115,6 +115,9 @@ gtag('config', 'G-XB3PR2Y1TQ');
   margin-right: auto;
   width: 50%;
 }
+html {
+  scroll-behavior: smooth;
+}
   </style>
 </head>
 
@@ -133,6 +136,7 @@ gtag('config', 'G-XB3PR2Y1TQ');
     <font size="+2">
           <p style="text-align: center;">
             <a href="./DreamBooth_files/final_paper.pdf" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#sum-video">[Summary Video]</a> &nbsp;&nbsp;&nbsp;&nbsp;
             <a href="./DreamBooth_files/bibtex.txt" target="_blank">[BibTeX]</a>
           </p>
     </font>
@@ -495,7 +499,7 @@ gtag('config', 'G-XB3PR2Y1TQ');
   
 </div>
 <div class="content">
-  <h2>Summary</h2>
+  <a id="sum-video"><h2>Summary</h2></a>
   <br>
   <iframe width="890" height="450" src="https://www.youtube.com/embed/TFtaoAqSkEA">
   </iframe>
@@ -503,7 +507,7 @@ gtag('config', 'G-XB3PR2Y1TQ');
 </div>
 
 <div class="content">
-  <h2>Results</h2>
+  <h2>Results with geometry</h2>
   <p>Results for text based 3D asset generation conditioned on casual captures. The assets below are generated using the text prompt "A photograh of < object >". 
     Where < object > is the subject repesented in the exemplar images. The first column presents the exemplar images used to update our T2I model. 
     The second and third column shows two rendered views from the learnt volume. The last three columns shows the depth, normals and alpha maps for the second rendered view. </p>
