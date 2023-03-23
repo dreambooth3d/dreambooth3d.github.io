@@ -166,15 +166,21 @@
   <div class="row">
     <div class="colum4">
       <img src="./DreamBooth_files/dog_cluster/Dog_cluster_2.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
     </div>
     <div class="colum4">
       <img src="./DreamBooth_files/vid_results/dog2.gif" style="width:100%;"> 
+      <p style="text-align: center;">A photo of a dog</p>
     </div>
     <div class="colum4">
       <img src="./DreamBooth_files/vid_results/dog2_glass.gif" style="width:100%;"> 
+      <p style="text-align: center;">A dog made of glass</p>
+
     </div>
     <div class="colum4">
       <img src="./DreamBooth_files/vid_results/dog2_stone.gif" style="width:100%;"> 
+      <p style="text-align: center;">A stone statue of a dog</p>
+
     </div>
   </div>
 
@@ -182,7 +188,8 @@
 
 <div class="content">
   <h2>Color Change</h2>
-  <p>Dreambooth 3D can introduce color changes in a consistent manner.
+  <p>Dreambooth 3D can introduce color changes in a consistent manner. We use a prompt of the following format : "A < color > backpack" for these results, 
+    where the caption of each image represents the < color > .
   </p>
   <br>
   <div class="row">
@@ -209,21 +216,27 @@
   <div class="row">
     <div class="colum4">
       <img src="./DreamBooth_files/clusters/Img_Clusters_bagd.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
     </div>
     <div class="colum4">
       <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/bagd_pink.mp4" type="video/mp4"> 
         </video>
+        <p style="text-align: center;">"Pink"</p>
     </div>
     <div class="colum4">
       <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/bagd_green.mp4" type="video/mp4"> 
         </video> 
+        <p style="text-align: center;">"Green"</p>
+
     </div>
     <div class="colum4">
       <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/bagd_grey.mp4" type="video/mp4"> 
         </video> 
+        <p style="text-align: center;">"Grey"</p>
+
     </div>
   </div>
 
@@ -258,21 +271,28 @@
   <div class="row">
     <div class="colum4">
       <img src="./DreamBooth_files/dog_cluster/Dog_cluster_3.png" style="width:100%;"> 
+      <p style="text-align: center;">Conditioning Images</p>
     </div>
     <div class="colum4">
       <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/dog7.mp4" type="video/mp4"> 
         </video>
+        <p style="text-align: center;">Photo of a dog sitting</p>
+
     </div>
     <div class="colum4">
       <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/dog7_sleep.mp4" type="video/mp4"> 
         </video>
+        <p style="text-align: center;">Photo of a dog sleeping</p>
+
     </div>
     <div class="colum4">
       <video style="width: 100%" autoplay muted loop>
         <source src="./DreamBooth_files/vid_results/dog7_jump.mp4" type="video/mp4"> 
         </video>
+        <p style="text-align: center;">Photo of a dog jumping</p>
+
     </div>
   </div>
 
@@ -398,16 +418,20 @@
   <div class="grid">
     <div>
       <img src="./DreamBooth_files/dog_cluster/Dog_cluster_8.png" style="height:150px;"> 
+      <p style="text-align: center;">Conditioning Images</p>
     </div>
     <div>
-      <img src="./DreamBooth_files/gifs/005.gif" style="height:150px;"> 
+      <img src="./DreamBooth_files/gifs/005.gif" style="height:150px;">
+      <p style="text-align: center;">Rendered NeRF</p>
     </div>
     <div>
       <img src="./DreamBooth_files/clusters/Img_Clusters_print.png" style="height:150px;"> 
+      <p style="text-align: center;">3D printed asset</p>
     </div>
     <div>
       <model-viewer src="DreamBooth_files/dog_statue.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1">
       </model-viewer>
+      <p style="text-align: center;">Mesh</p>
     </div>
   </div>
   <br>
